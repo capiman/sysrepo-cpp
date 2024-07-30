@@ -43,7 +43,8 @@ add_library(sysrepo-cpp SHARED
         src/utils/utils.cpp
     )
 
-target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
+# target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
+target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO)
 
 if(BUILD_TESTING)
     find_package(doctest 2.4.8 REQUIRED)
