@@ -27,8 +27,7 @@ option(WITH_DOCS "Create and install internal documentation (needs Doxygen)" ${D
 option(WITH_EXAMPLES "Build examples" ON)
 
 find_package(PkgConfig)
-# Commented out check for LIBYANG_CPP only for testing
-# pkg_check_modules(LIBYANG_CPP REQUIRED libyang-cpp>=0.0.0 IMPORTED_TARGET)
+pkg_check_modules(LIBYANG_CPP REQUIRED libyang-cpp>=0.0.0 IMPORTED_TARGET)
 pkg_check_modules(SYSREPO REQUIRED sysrepo>=2.2.141 IMPORTED_TARGET)
 set(SYSREPO_CPP_PKG_VERSION "1.2.0")
 
@@ -43,8 +42,7 @@ add_library(sysrepo-cpp SHARED
         src/utils/utils.cpp
     )
 
-# target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
-target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO)
+target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
 
 if(BUILD_TESTING)
     find_package(doctest 2.4.8 REQUIRED)
