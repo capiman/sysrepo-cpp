@@ -6,13 +6,13 @@
 
 cmake_minimum_required(VERSION 3.19)
 project(sysrepo-cpp LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 include(GNUInstallDirs)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-Werror ${CMAKE_CXX_FLAGS_DEBUG}")
-
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -Woverloaded-virtual -Wimplicit-fallthrough -Wsuggest-override ${CMAKE_CXX_FLAGS}")
 
 add_custom_target(sysrepo-cpp-version-cmake
@@ -26,10 +26,16 @@ find_package(Doxygen)
 option(WITH_DOCS "Create and install internal documentation (needs Doxygen)" ${DOXYGEN_FOUND})
 option(WITH_EXAMPLES "Build examples" ON)
 
-find_package(PkgConfig)
+find_package(PkgConfig REQUIRED)
+set(PKG_CONFIG_DEBUG 1)  # Enable pkg-config debug output
 pkg_check_modules(LIBYANG_CPP REQUIRED libyang-cpp>=0.0.0 IMPORTED_TARGET)
 pkg_check_modules(SYSREPO REQUIRED sysrepo>=2.2.141 IMPORTED_TARGET)
 set(SYSREPO_CPP_PKG_VERSION "1.2.0")
+
+message(STATUS "LIBYANG_CPP_LIBRARIES: ${LIBYANG_CPP_LIBRARIES}")
+message(STATUS "LIBYANG_CPP_INCLUDE_DIRS: ${LIBYANG_CPP_INCLUDE_DIRS}")
+message(STATUS "SYSREPO_LIBRARIES: ${SYSREPO_LIBRARIES}")
+message(STATUS "SYSREPO_INCLUDE_DIRS: ${SYSREPO_INCLUDE_DIRS}")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -103,7 +109,7 @@ endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/sysrepo-cpp.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/sysrepo-cpp.pc" @ONLY)
 
-# this is not enough, but at least it will generate the `install` target so that the CI setup is less magic
 install(TARGETS sysrepo-cpp)
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/sysrepo-cpp" TYPE INCLUDE)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sysrepo-cpp.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
