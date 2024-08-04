@@ -51,7 +51,7 @@ add_library(sysrepo-cpp SHARED
         src/utils/utils.cpp
     )
 
-set_target_properties(mylib PROPERTIES
+set_target_properties(sysrepo-cpp PROPERTIES
     VERSION ${SYSREPO_CPP_LIB_VERSION}
     SOVERSION ${SYSREPO_CPP_LIB_SOVERSION}
 )    
