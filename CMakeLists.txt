@@ -22,6 +22,9 @@ add_custom_target(sysrepo-cpp-version-cmake
 include(cmake/ProjectGitVersion.cmake)
 prepare_git_version(SYSREPO_CPP_VERSION "0.0")
 
+set(SYSREPO_CPP_LIB_VERSION 1.2.0)
+set(SYSREPO_CPP_LIB_SOVERSION 1)
+
 find_package(Doxygen)
 option(WITH_DOCS "Create and install internal documentation (needs Doxygen)" ${DOXYGEN_FOUND})
 option(WITH_EXAMPLES "Build examples" ON)
@@ -47,6 +50,11 @@ add_library(sysrepo-cpp SHARED
         src/utils/exception.cpp
         src/utils/utils.cpp
     )
+
+set_target_properties(mylib PROPERTIES
+    VERSION ${SYSREPO_CPP_LIB_VERSION}
+    SOVERSION ${SYSREPO_CPP_LIB_SOVERSION}
+)    
 
 target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
 
