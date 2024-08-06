@@ -56,7 +56,8 @@ set_target_properties(sysrepo-cpp PROPERTIES
     SOVERSION ${SYSREPO_CPP_LIB_SOVERSION}
 )    
 
-target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
+# target_link_libraries(sysrepo-cpp PRIVATE PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP)
+target_link_libraries(sysrepo-cpp PRIVATE -Wl,--start-group PkgConfig::SYSREPO PUBLIC PkgConfig::LIBYANG_CPP -Wl,--end-group)
 
 if(BUILD_TESTING)
     find_package(doctest 2.4.8 REQUIRED)
